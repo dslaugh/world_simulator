@@ -22,9 +22,7 @@ app.get('/step', (req, res) => {
 
 app.get('/reset', (req, res) => {
 	world = getNewElkWorld();
-	const worldMarkup = world.toString();
-	console.log('typeof worldMarkup', typeof worldMarkup);
-	res.status(200).send(worldMarkup);
+	res.status(200).send(world.toString());
 });
 
 app.listen(PORT, () => {
