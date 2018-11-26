@@ -5,13 +5,6 @@ class CreatureState {
 		this.target = target;
 		this.directions = Directions;
 		this.directionList = Object.keys(this.directions);
-		this.hungryLevel = 70;
-		this.notHungryLevel = 100;
-		this.reproductionCooldownLevel = 30;
-		this.inShelterX = 35;
-		this.inShelterY = 5;
-		this.inFoodAreaX = 25;
-		this.inFoodAreaY = 10;
 		this.name = 'CreatureState';
 	}
 

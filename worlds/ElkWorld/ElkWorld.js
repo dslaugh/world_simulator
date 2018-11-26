@@ -42,9 +42,9 @@ class ElkWorld extends GameBoard {
 		this.grid.each((point, pointValue) => {
 			let character = pointValue.character;
 			let classes = 'point';
-			// if (pointValue.ai) {
-			// 	classes += ` ${pointValue.ai.state.name}`;
-			// }
+			if (pointValue.ai) {
+				classes += ` ${pointValue.ai.state.name}`;
+			}
 			if (pointValue.iconClass) {
 				classes += ` ${pointValue.iconClass}`;
 				character = '';
