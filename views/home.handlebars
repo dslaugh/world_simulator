@@ -1,0 +1,47 @@
+<div>
+	<button type="button" onClick="step()">Step</button>
+	<button type="button" onClick="start()">Start</button>
+	<button type="button" onClick="stop()">Stop</button>
+	<button type="button" onClick="reset()">Reset</button>
+
+	<div id="board">{{{initialBoard}}}</div>
+	<div class="tree"></div>
+</div>
+<script>
+	function getStep() {
+		return fetch('/step')
+			.then(response => response.text());
+
+	}
+	function renderBoard(board) {
+		document.getElementById('board').innerHTML = board;
+		return;
+	}
+
+	let isRunning = false;
+	let stepSpeed = 200;
+	function run() {
+		if (isRunning) {
+			getStep()
+			  .then(renderBoard)
+			  .then(() => {
+			  	setTimeout(run, stepSpeed);
+			  });
+		}
+	}
+	function step() {
+		getStep().then(renderBoard);
+	}
+	function start() {
+		if (isRunning === false) {
+			isRunning = true;
+			run();
+		}
+	}
+	function stop() {
+		isRunning = false;
+	}
+	function reset() {
+		fetch('/reset').then(renderBoard);
+	}
+</script>
