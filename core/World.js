@@ -16,7 +16,7 @@ class World {
 			const line = map[y];
 			for(let x=0; x<line.length; x++) {
 				const point = new Point(x, y);
-				this.grid.setValueAt(point, this.elements.elementFromCharacter(line[x]));
+				this.grid.setValueAt(point, this.elements.createByCharacter(line[x]));
 			}
 		}
 	}
@@ -25,19 +25,9 @@ class World {
 		const result = [];
 		const lineLength = this.gridWidth - 1;
 
-
 		this.grid.each((point, pointValue) => {
 			let character = pointValue.character;
-			let classes = 'point';
-			// if (pointValue.ai) {
-			// 	classes += ` ${pointValue.ai.state.name}`;
-			// }
-			if (pointValue.iconClass) {
-				classes += ` ${pointValue.iconClass}`;
-				character = '';
-			}
-
-			const markup = `<div class="${classes}" title="${pointValue.id}">${character}</div>`;
+			const markup = `<div class="point">${character}</div>`;
 			result.push(markup);
 			if (point.x === lineLength) {
 				result.push('<br />');

@@ -1,4 +1,4 @@
-const GameBoard = require('../core/World');
+const GameBoard = require('../../core/World');
 
 class ElkWorld extends GameBoard {
 	processCreature(creature) {
@@ -33,6 +33,31 @@ class ElkWorld extends GameBoard {
 					break;
 			}
 		}
+	}
+
+	toString() {
+		const result = [];
+		const lineLength = this.gridWidth - 1;
+
+		this.grid.each((point, pointValue) => {
+			let character = pointValue.character;
+			let classes = 'point';
+			if (pointValue.ai) {
+				classes += ` ${pointValue.ai.state.name}`;
+			}
+			if (pointValue.iconClass) {
+				classes += ` ${pointValue.iconClass}`;
+				character = '';
+			}
+
+			const markup = `<div class="${classes}">${character}</div>`;
+			result.push(markup);
+			if (point.x === lineLength) {
+				result.push('<br />');
+			}
+		});
+
+		return result.join('');
 	}
 
 	step() {

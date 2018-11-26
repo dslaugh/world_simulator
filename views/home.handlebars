@@ -4,17 +4,16 @@
 	<button type="button" onClick="stop()">Stop</button>
 	<button type="button" onClick="reset()">Reset</button>
 
-	<div id="board">{{{initialBoard}}}</div>
+	<div id="world">{{{initialWorld}}}</div>
 	<div class="tree"></div>
 </div>
 <script>
 	function getStep() {
-		return fetch('/step')
-			.then(response => response.text());
+		return fetch('/step').then(response => response.text());
 
 	}
-	function renderBoard(board) {
-		document.getElementById('board').innerHTML = board;
+	function renderWorld(world) {
+		document.getElementById('world').innerHTML = world;
 		return;
 	}
 
@@ -23,14 +22,14 @@
 	function run() {
 		if (isRunning) {
 			getStep()
-			  .then(renderBoard)
+			  .then(renderWorld)
 			  .then(() => {
 			  	setTimeout(run, stepSpeed);
 			  });
 		}
 	}
 	function step() {
-		getStep().then(renderBoard);
+		getStep().then(renderWorld);
 	}
 	function start() {
 		if (isRunning === false) {
@@ -42,6 +41,10 @@
 		isRunning = false;
 	}
 	function reset() {
-		fetch('/reset').then(renderBoard);
+		fetch('/reset')
+			.then(response => response.text())
+			.then((world) => {
+				renderWorld(world);
+			});
 	}
 </script>

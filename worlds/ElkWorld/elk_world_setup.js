@@ -1,9 +1,9 @@
 const ElkWorld = require('./ElkWorld');
-const ElementRegistry = require('../core/ElementRegistry');
-const Directions = require('../core/Directions');
-const Elk = require('../creatures/Elk');
-const Grass = require('../creatures/Grass');
-const elkWorldMap = require('../maps/elk_world_map');
+const ElementRegistry = require('../../core/ElementRegistry');
+const Directions = require('../../core/Directions');
+const Elk = require('../../creatures/Elk');
+const Grass = require('../../creatures/Grass');
+const elkWorldMap = require('../../maps/elk_world_map');
 
 const empty = {
 	character: ' ',

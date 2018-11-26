@@ -22,17 +22,6 @@ class ElementRegistry {
 		}
 	}
 
-	elementFromCharacter(character) {
-		const element = this.registry.find((reg) => {
-			return reg.character === character;
-		});
-
-		if (element.create) {
-			return element.create();
-		}
-		return element;
-	}
-
 	createByCharacter(character) {
 		const element = this.registry.find(e => e.character === character);
 		if (element && element.create) {

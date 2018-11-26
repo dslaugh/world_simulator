@@ -1,6 +1,6 @@
 const express = require('express');
 const exp_handlebars = require('express-handlebars');
-const getNewElkWorld = require('./worlds/elk_world_setup');
+const getNewElkWorld = require('./worlds/ElkWorld/elk_world_setup');
 
 let world = getNewElkWorld();
 
@@ -12,7 +12,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static('./public/images'));
 
 app.get('/', (req, res) => {
-	res.render('home', { initialBoard: world.toString() });
+	res.render('home', { initialWorld: world.toString() });
 });
 
 app.get('/step', (req, res) => {
@@ -22,8 +22,9 @@ app.get('/step', (req, res) => {
 
 app.get('/reset', (req, res) => {
 	world = getNewElkWorld();
-	const board = world.toString();
-	res.status(200).send(board);
+	const worldMarkup = world.toString();
+	console.log('typeof worldMarkup', typeof worldMarkup);
+	res.status(200).send(worldMarkup);
 });
 
 app.listen(PORT, () => {
