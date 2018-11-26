@@ -1,7 +1,6 @@
 class ElementRegistry {
 	constructor() {
 		this.registry = [];
-		this.elements = [];
 	}
 
 
@@ -15,7 +14,6 @@ class ElementRegistry {
 
 		if (!alreadyRegistered) {
 			this.registry.push(newElement);
-			this.elements.push(newElement.create());
 			return true;
 		} else {
 			return false;
@@ -24,8 +22,13 @@ class ElementRegistry {
 
 	createByCharacter(character) {
 		const element = this.registry.find(e => e.character === character);
-		if (element && element.create) {
-			return element.create();
+		const brain = {};
+		if (element) {
+			if (element.brain) {
+				brain.ai = new element.brain();
+			}
+
+			return Object.assign({}, element, brain);
 		}
 		throw Error(`Character: ${character} does not exist in the registry`);
 	}
