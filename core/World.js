@@ -6,7 +6,7 @@ class World {
 		this.gridWidth = options.map[0].length;
 		this.gridHeight = options.map.length;
 		this.elements = options.elements;
-		this.grid = new Grid(this.gridWidth, this.gridHeight, this.elements);
+		this.grid = new Grid(this.gridWidth, this.gridHeight);
 		this.directions = options.directions;
 		this.map = this.processMap(options.map);
 	}
@@ -16,7 +16,11 @@ class World {
 			const line = map[y];
 			for(let x=0; x<line.length; x++) {
 				const point = new Point(x, y);
-				this.grid.setValueAt(point, this.elements.createByCharacter(line[x]));
+				const pointValue = {
+					currentValue: this.elements.createByCharacter(line[x]),
+					previousValue: this.elements.createByCharacter(' '),
+				};
+				this.grid.initializeCellAt(point, pointValue);
 			}
 		}
 	}
@@ -52,32 +56,12 @@ class World {
 		Object.keys(this.directions).forEach((dir) => {
 			const place = point.add(this.directions[dir]);
 			if (this.grid.isInside(place)) {
-				surroundings[dir] = this.grid.valueAt(place);
+				surroundings[dir] = this.grid.currentValueAt(place);
 			} else {
 				surroundings[dir] = this.elements.findByCharacter('#');
 			}
 		});
 		return surroundings;
-	}
-
-	getByType(type) {
-		const found = [];
-		this.grid.each((point, value) => {
-			if (value && (value.type === type)) {
-				found.push({ object: value, point });
-			}
-		});
-		return found;
-	}
-
-	getByCharacter(character) {
-		const found = [];
-		this.grid.each((point, value) => {
-			if (value && value.character === character) {
-				found.push({ object: value, point });
-			}
-		});
-		return found;
 	}
 
 	processCreature() {

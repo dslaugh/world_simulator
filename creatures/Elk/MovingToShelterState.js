@@ -25,13 +25,11 @@ class MovingToShelterState extends ElkState {
 	act(data) {
 		const emptySpaceDirs = this.searchSurroundings(data.surroundings, 'empty');
 		const grassDirs = this.searchSurroundings(data.surroundings, 'grass');
+		const passableDirs = emptySpaceDirs.concat(grassDirs);
 
 		let northEastDirs = [];
-		if (emptySpaceDirs.length > 0) {
-			northEastDirs = emptySpaceDirs.filter(dir => ['e', 'ne', 'n'].includes(dir));
-		}
-		if (northEastDirs.length === 0 && grassDirs.length > 0) {
-			northEastDirs = grassDirs.filter(dir => ['e', 'ne', 'n'].includes(dir));
+		if (passableDirs.length > 0) {
+			northEastDirs = passableDirs.filter(dir => ['e', 'ne', 'n'].includes(dir));
 		}
 
 		if (northEastDirs.length > 0) {

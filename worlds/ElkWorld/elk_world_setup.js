@@ -2,7 +2,8 @@ const ElkWorld = require('./ElkWorld');
 const ElementRegistry = require('../../core/ElementRegistry');
 const Directions = require('../../core/Directions');
 const Elk = require('../../creatures/Elk/Elk');
-const Grass = require('../../creatures/Grass');
+const Grass = require('../../creatures/Grass/Grass');
+const Wolf = require('../../creatures/Wolf/Wolf');
 const elkWorldMap = require('../../maps/elk_world_map');
 
 const empty = {
@@ -41,6 +42,7 @@ const elk = {
 	type: 'elk',
 	age: 0,
 	health: 100,
+	energy: 20,
 	reproductionCooldown: 0,
 	iconClass: 'elk',
 	brain: Elk,

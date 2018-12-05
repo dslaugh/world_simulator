@@ -1,6 +1,6 @@
-const GameBoard = require('../../core/World');
+const World = require('../../core/World');
 
-class ElkWorld extends GameBoard {
+class ElkWorld extends World {
 	processCreature(creature) {
 		const surroundings = this.listSurroundings(creature.point);
 		const action = creature.object.act({ surroundings, creature });
@@ -14,20 +14,22 @@ class ElkWorld extends GameBoard {
 					}
 					break;
 				case 'die':
-					this.grid.setValueAt(creature.point, this.elements.createByCharacter(' '));
+					this.grid.setCurrentValueAt(creature.point, this.elements.createByCharacter(' '));
+					this.grid.setPreviousValueAt(creature.point, this.elements.createByCharacter(' '));
 					break;
 				case 'eat':
 					const foodPoint = creature.point.add(action.point);
-					const food = this.grid.valueAt(foodPoint);
+					const food = this.grid.currentValueAt(foodPoint);
 					creature.object.health += food.energy;
-					this.grid.moveValue(creature.point, foodPoint);
+					this.grid.moveValue(creature.point, foodPoint, this.elements.createByCharacter(' '));
 					break;
 				case 'grow':
 					creature.object.energy += action.units;
 					break;
 				case 'reproduce':
 					const newPoint = creature.point.add(action.point);
-					this.grid.setValueAt(newPoint, this.elements.createByCharacter(action.character));
+					this.grid.setCurrentValueAt(newPoint, this.elements.createByCharacter(action.character));
+					this.grid.setPreviousValueAt(newPoint, this.elements.createByCharacter(' '));
 					break;
 				default:
 					break;
@@ -42,9 +44,9 @@ class ElkWorld extends GameBoard {
 		this.grid.each((point, pointValue) => {
 			let character = pointValue.character;
 			let classes = 'point';
-			// if (pointValue.ai) {
-			// 	classes += ` ${pointValue.ai.state.name}`;
-			// }
+			if (pointValue.ai) {
+				classes += ` ${pointValue.ai.state.name}`;
+			}
 			if (pointValue.iconClass) {
 				classes += ` ${pointValue.iconClass}`;
 				character = '';
@@ -62,11 +64,11 @@ class ElkWorld extends GameBoard {
 
 	step() {
 		const actingCreatures = this.listActingCreatures();
-		const grass = this.getByType('grass');
-		if (grass.length < 3) {
-			const emptySpaces = this.getByType('empty');
+		const grass = this.grid.getByType('grass');
+		if (grass.length < 1) {
+			const emptySpaces = this.grid.getByType('empty');
 			const randSpace = this.getRandomFromArray(emptySpaces);
-			this.grid.setValueAt(randSpace.point, this.elements.createByCharacter('.'));
+			this.grid.setCurrentValueAt(randSpace.point, this.elements.createByCharacter('.'));
 
 		}
 		actingCreatures.forEach(this.processCreature.bind(this));
