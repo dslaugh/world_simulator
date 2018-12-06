@@ -1,6 +1,6 @@
 # World Simulator
 
-A fun world simulator.
+A fun world simulator I've been working on.
 
 This is a work in progress...
 
