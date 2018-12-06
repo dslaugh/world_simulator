@@ -90,7 +90,14 @@ class ElkWorld extends World {
 			const emptySpaces = this.grid.getByType('empty');
 			const randSpace = this.getRandomFromArray(emptySpaces);
 			this.grid.setCurrentValueAt(randSpace.point, this.elements.createByCharacter('.'));
+		}
 
+		// To make sure there's always going to be at least two elk
+		const elk = this.grid.getByType('elk');
+		if (elk.length < 2) {
+			const emptySpaces = this.grid.getByType('empty');
+			const randSpace = this.getRandomFromArray(emptySpaces);
+			this.grid.setCurrentValueAt(randSpace.point, this.elements.createByCharacter('E'));
 		}
 
 		actingCreatures.forEach(this.processCreature.bind(this));

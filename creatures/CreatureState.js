@@ -9,9 +9,12 @@ class CreatureState {
 	}
 
 	searchSurroundings(surroundings, type) {
+		if (typeof type === 'string') {
+			type = [type];
+		}
 		const dirs = Object.keys(surroundings);
 		const found = dirs.reduce((prev, curr) => {
-			if (surroundings[curr].type === type) {
+			if (type.includes(surroundings[curr].type)) {
 				prev.push(curr);
 			}
 			return prev;
