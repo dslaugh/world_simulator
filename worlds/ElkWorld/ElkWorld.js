@@ -31,6 +31,25 @@ class ElkWorld extends World {
 					this.grid.setCurrentValueAt(newPoint, this.elements.createByCharacter(action.character));
 					this.grid.setPreviousValueAt(newPoint, this.elements.createByCharacter(' '));
 					break;
+				case 'hide':
+					const previousValue = this.grid.previousValueAt(creature.point);
+					const currentValue = this.grid.currentValueAt(creature.point);
+					const hidingPoint = creature.point.add(action.point);
+					const hidingPointValue = this.grid.currentValueAt(hidingPoint);
+					hidingPointValue.ai.isOccupied = true;
+					this.grid.setCurrentValueAt(creature.point, previousValue);
+					this.grid.setPreviousValueAt(hidingPoint, currentValue); // This is to simulate hiding...
+					break;
+				case 'vacate':
+					const occupant = this.grid.previousValueAt(creature.point);
+					const vacatingPoint = creature.point.add(action.point);
+					const vacatingCurrentValue = this.grid.currentValueAt(vacatingPoint);
+					const hidingSpot = this.grid.currentValueAt(creature.point);
+					hidingSpot.ai.isOccupied = false;
+					this.grid.setPreviousValueAt(creature.point, this.elements.createByCharacter(' '));
+					this.grid.setPreviousValueAt(vacatingPoint, vacatingCurrentValue);
+					this.grid.setCurrentValueAt(vacatingPoint, occupant);
+					break;
 				default:
 					break;
 			}
@@ -41,7 +60,7 @@ class ElkWorld extends World {
 		const result = [];
 		const lineLength = this.gridWidth - 1;
 
-		this.grid.each((point, pointValue) => {
+		this.grid.each((point, pointValue, cellValue) => {
 			let character = pointValue.character;
 			let classes = 'point';
 			if (pointValue.ai) {
@@ -64,6 +83,8 @@ class ElkWorld extends World {
 
 	step() {
 		const actingCreatures = this.listActingCreatures();
+
+		// To make sure there's always going to be grass
 		const grass = this.grid.getByType('grass');
 		if (grass.length < 1) {
 			const emptySpaces = this.grid.getByType('empty');
@@ -71,6 +92,7 @@ class ElkWorld extends World {
 			this.grid.setCurrentValueAt(randSpace.point, this.elements.createByCharacter('.'));
 
 		}
+
 		actingCreatures.forEach(this.processCreature.bind(this));
 		return this.onStep();
 	}

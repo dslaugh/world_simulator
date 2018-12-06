@@ -28,8 +28,8 @@ class CreatureState {
 		return dirs[rand];
 	}
 
-	getRand() {
-		return Math.floor(Math.random() * 10);
+	getRand(num=10) {
+		return Math.floor(Math.random() * num);
 	}
 
 	isInShelter(point) {

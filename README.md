@@ -1,6 +1,6 @@
 # World Simulator
 
-A fun world simulator based on Conway's game of life.
+A fun world simulator.
 
 This is a work in progress...
 
