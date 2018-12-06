@@ -63,9 +63,7 @@ class ElkWorld extends World {
 		this.grid.each((point, pointValue, cellValue) => {
 			let character = pointValue.character;
 			let classes = 'point';
-			if (pointValue.ai) {
-				classes += ` ${pointValue.ai.state.name}`;
-			}
+			
 			if (pointValue.iconClass) {
 				classes += ` ${pointValue.iconClass}`;
 				character = '';
